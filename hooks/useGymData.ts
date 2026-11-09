@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { gymService } from '@/services/gymService';
-import type { Exercise, Routine, WorkoutSummary } from '@/types/gym';
+import { gymService } from "@/services/gymService";
+import type { Exercise, Routine, WorkoutSummary } from "@/types/gym";
 
 export function useGymData() {
   const [exercises, setExercises] = useState<Exercise[]>([]);

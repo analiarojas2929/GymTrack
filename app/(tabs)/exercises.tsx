@@ -1,3 +1,3 @@
-import { ExercisesScreen } from '@/screens/ExercisesScreen';
+import { ExercisesScreen } from "@/screens/ExercisesScreen";
 
 export default ExercisesScreen;

@@ -3,7 +3,7 @@ export type Exercise = {
   name: string;
   muscle: string;
   equipment: string;
-  level: 'Principiante' | 'Intermedio' | 'Avanzado';
+  level: "Principiante" | "Intermedio" | "Avanzado";
 };
 
 export type Routine = {

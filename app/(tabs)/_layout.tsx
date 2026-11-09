@@ -1,6 +1,6 @@
-import { SymbolView } from 'expo-symbols';
-import { Tabs } from 'expo-router';
-import { palette } from '@/constants/theme';
+import { palette } from "@/constants/theme";
+import { Tabs } from "expo-router";
+import { SymbolView } from "expo-symbols";
 
 export default function TabLayout() {
   return (
@@ -16,15 +16,16 @@ export default function TabLayout() {
           paddingBottom: 8,
           paddingTop: 8,
         },
-        tabBarLabelStyle: { fontSize: 10, fontWeight: '600' },
-      }}>
+        tabBarLabelStyle: { fontSize: 10, fontWeight: "600" },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Inicio',
+          title: "Inicio",
           tabBarIcon: ({ color }) => (
             <SymbolView
-              name={{ ios: 'house.fill', android: 'home', web: 'home' }}
+              name={{ ios: "house.fill", android: "home", web: "home" }}
               tintColor={color}
               size={22}
             />
@@ -34,19 +35,63 @@ export default function TabLayout() {
       <Tabs.Screen
         name="exercises"
         options={{
-          title: 'Ejercicios',
+          title: "Ejercicios",
           tabBarIcon: ({ color }) => (
             <SymbolView
-              name={{ ios: 'dumbbell.fill', android: 'fitness_center', web: 'fitness_center' }}
+              name={{
+                ios: "dumbbell.fill",
+                android: "fitness_center",
+                web: "fitness_center",
+              }}
               tintColor={color}
               size={22}
             />
           ),
         }}
       />
-      <Tabs.Screen name="routines" options={{ title: 'Rutinas', tabBarIcon: ({ color }) => <SymbolView name={{ ios: 'list.bullet', android: 'list', web: 'list' }} tintColor={color} size={22} /> }} />
-      <Tabs.Screen name="progress" options={{ title: 'Progreso', tabBarIcon: ({ color }) => <SymbolView name={{ ios: 'chart.xyaxis.line', android: 'show_chart', web: 'show_chart' }} tintColor={color} size={22} /> }} />
-      <Tabs.Screen name="profile" options={{ title: 'Perfil', tabBarIcon: ({ color }) => <SymbolView name={{ ios: 'person.fill', android: 'person', web: 'person' }} tintColor={color} size={22} /> }} />
+      <Tabs.Screen
+        name="routines"
+        options={{
+          title: "Rutinas",
+          tabBarIcon: ({ color }) => (
+            <SymbolView
+              name={{ ios: "list.bullet", android: "list", web: "list" }}
+              tintColor={color}
+              size={22}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="progress"
+        options={{
+          title: "Progreso",
+          tabBarIcon: ({ color }) => (
+            <SymbolView
+              name={{
+                ios: "chart.xyaxis.line",
+                android: "show_chart",
+                web: "show_chart",
+              }}
+              tintColor={color}
+              size={22}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Perfil",
+          tabBarIcon: ({ color }) => (
+            <SymbolView
+              name={{ ios: "person.fill", android: "person", web: "person" }}
+              tintColor={color}
+              size={22}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
