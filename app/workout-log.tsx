@@ -10,7 +10,7 @@ export default function WorkoutLogScreen() {
   const [volume, setVolume] = useState('3200');
 
   function saveWorkout() {
-    Alert.alert('Entrenamiento registrado', 'Tu sesión se guardó localmente en esta demostración.', [{ text: 'Listo', onPress: () => router.back() }]);
+    Alert.alert('Registro simulado', 'La persistencia de entrenamientos se conectará en una siguiente etapa.', [{ text: 'Listo', onPress: () => router.back() }]);
   }
 
   return (
