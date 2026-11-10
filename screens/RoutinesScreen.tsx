@@ -3,18 +3,20 @@ import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
 import {
-    ActionButton,
-    AppScreen,
-    AppText,
-    ScreenHeading,
-    Surface,
+  ActionButton,
+  AppScreen,
+  AppText,
+  ScreenHeading,
+  Surface,
 } from "@/components/ui";
 import { palette, spacing } from "@/constants/theme";
 import { useGymData } from "@/hooks/useGymData";
 
 export function RoutinesScreen() {
   const { routines } = useGymData();
-  const [expandedRoutineId, setExpandedRoutineId] = useState<string | null>(null);
+  const [expandedRoutineId, setExpandedRoutineId] = useState<string | null>(
+    null,
+  );
 
   return (
     <AppScreen>
@@ -57,11 +59,17 @@ export function RoutinesScreen() {
           <Pressable
             accessibilityRole="button"
             accessibilityState={{ expanded: expandedRoutineId === routine.id }}
-            onPress={() => setExpandedRoutineId((current) => current === routine.id ? null : routine.id)}
+            onPress={() =>
+              setExpandedRoutineId((current) =>
+                current === routine.id ? null : routine.id,
+              )
+            }
             style={styles.detailToggle}
           >
             <AppText variant="caption" color={palette.accent}>
-              {expandedRoutineId === routine.id ? "OCULTAR EJERCICIOS" : "VER EJERCICIOS Y SERIES"}
+              {expandedRoutineId === routine.id
+                ? "OCULTAR EJERCICIOS"
+                : "VER EJERCICIOS Y SERIES"}
             </AppText>
             <AppText variant="caption" color={palette.muted}>
               {expandedRoutineId === routine.id ? "−" : "+"}
@@ -70,15 +78,20 @@ export function RoutinesScreen() {
           {expandedRoutineId === routine.id ? (
             <View style={styles.exerciseList}>
               <View style={styles.exerciseHeader}>
-                <AppText variant="caption" color={palette.muted}>EJERCICIO</AppText>
-                <AppText variant="caption" color={palette.muted}>SERIES × REPS</AppText>
+                <AppText variant="caption" color={palette.muted}>
+                  EJERCICIO
+                </AppText>
+                <AppText variant="caption" color={palette.muted}>
+                  SERIES × REPS
+                </AppText>
               </View>
               {routine.exerciseDetails.map((exercise) => (
                 <View key={exercise.id} style={styles.exerciseRow}>
                   <View style={styles.exerciseCopy}>
                     <AppText variant="caption">{exercise.name}</AppText>
                     <AppText variant="caption" color={palette.muted}>
-                      {exercise.previousWeightKg} → {exercise.currentWeightKg} kg · descanso {exercise.restSeconds}s
+                      {exercise.previousWeightKg} → {exercise.currentWeightKg}{" "}
+                      kg · descanso {exercise.restSeconds}s
                     </AppText>
                   </View>
                   <AppText variant="caption" color={palette.accent}>
@@ -90,10 +103,12 @@ export function RoutinesScreen() {
           ) : null}
           <ActionButton
             label="Empezar rutina"
-            onPress={() => router.push({
-              pathname: "/(tabs)/train",
-              params: { routineId: routine.id },
-            })}
+            onPress={() =>
+              router.push({
+                pathname: "/(tabs)/train",
+                params: { routineId: routine.id },
+              })
+            }
           />
         </Surface>
       ))}
@@ -112,9 +127,25 @@ const styles = StyleSheet.create({
     paddingTop: spacing.md,
     marginTop: spacing.xs,
   },
-  detailToggle: { flexDirection: "row", justifyContent: "space-between", paddingVertical: spacing.sm },
+  detailToggle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: spacing.sm,
+  },
   exerciseList: { gap: spacing.xs, paddingVertical: spacing.xs },
-  exerciseHeader: { flexDirection: "row", justifyContent: "space-between", paddingBottom: spacing.xs },
-  exerciseRow: { minHeight: 50, flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.sm, borderTopWidth: 1, borderTopColor: palette.border },
+  exerciseHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingBottom: spacing.xs,
+  },
+  exerciseRow: {
+    minHeight: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: palette.border,
+  },
   exerciseCopy: { flex: 1, gap: 3 },
 });

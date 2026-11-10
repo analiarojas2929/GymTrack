@@ -95,7 +95,11 @@ export function HomeScreen() {
           <View style={styles.goalRow}>
             <View style={styles.goalCopy}>
               <AppText variant="display">
-                {Math.min(Math.round((completed / Math.max(goal, 1)) * 100), 100)}%
+                {Math.min(
+                  Math.round((completed / Math.max(goal, 1)) * 100),
+                  100,
+                )}
+                %
               </AppText>
               <AppText color={palette.muted}>
                 {goal - completed > 0
@@ -117,7 +121,10 @@ export function HomeScreen() {
           </View>
           <View style={styles.weekStrip}>
             {weekDays.map((day) => (
-              <View key={`${day.label}-${day.dayNumber}`} style={styles.weekDay}>
+              <View
+                key={`${day.label}-${day.dayNumber}`}
+                style={styles.weekDay}
+              >
                 <AppText variant="caption" color={palette.muted}>
                   {day.label}
                 </AppText>
@@ -130,7 +137,11 @@ export function HomeScreen() {
                 >
                   <AppText
                     variant="caption"
-                    color={day.complete || day.isToday ? palette.background : palette.muted}
+                    color={
+                      day.complete || day.isToday
+                        ? palette.background
+                        : palette.muted
+                    }
                   >
                     {day.complete ? "✓" : day.dayNumber}
                   </AppText>
@@ -177,7 +188,8 @@ export function HomeScreen() {
           <AppText color={palette.muted}>{todayRoutine.focus}</AppText>
           <View style={styles.cardFooter}>
             <AppText variant="caption" color={palette.muted}>
-              {todayRoutine.exercises} ejercicios · {todayRoutine.sessionsPerWeek} días/semana
+              {todayRoutine.exercises} ejercicios ·{" "}
+              {todayRoutine.sessionsPerWeek} días/semana
             </AppText>
             <ActionButton
               label="Empezar entrenamiento"
@@ -190,7 +202,10 @@ export function HomeScreen() {
           <EmptyState
             title="Sin rutina para hoy"
             detail="Explora tus rutinas y elige una para empezar."
-            action={{ label: "Ver rutinas", onPress: () => router.push("/(tabs)/routines") }}
+            action={{
+              label: "Ver rutinas",
+              onPress: () => router.push("/(tabs)/routines"),
+            }}
           />
         </Surface>
       )}
@@ -203,7 +218,11 @@ export function HomeScreen() {
           value={`${((summary?.volumeKg ?? 0) / 1000).toFixed(1)}`}
           suffix=" t"
         />
-        <Metric label="TIEMPO" value={`${summary?.durationMinutes ?? 0}`} suffix=" min" />
+        <Metric
+          label="TIEMPO"
+          value={`${summary?.durationMinutes ?? 0}`}
+          suffix=" min"
+        />
       </View>
 
       <AppText variant="title">Accesos rápidos</AppText>
@@ -225,7 +244,9 @@ export function HomeScreen() {
       {latestWorkout ? (
         <Surface style={styles.lastWorkout}>
           <View style={styles.lastWorkoutMark}>
-            <AppText variant="title" color={palette.accent}>↻</AppText>
+            <AppText variant="title" color={palette.accent}>
+              ↻
+            </AppText>
           </View>
           <View style={styles.lastWorkoutCopy}>
             <AppText variant="caption" color={palette.muted}>
@@ -260,41 +281,124 @@ function QuickAction({
       style={styles.quickAction}
     >
       <View style={styles.quickMarker}>
-        <AppText variant="title" color={palette.accent}>{marker}</AppText>
+        <AppText variant="title" color={palette.accent}>
+          {marker}
+        </AppText>
       </View>
       <View style={styles.quickCopy}>
         <AppText variant="caption">{label}</AppText>
-        <AppText variant="caption" color={palette.muted}>{detail}</AppText>
+        <AppText variant="caption" color={palette.muted}>
+          {detail}
+        </AppText>
       </View>
-      <AppText variant="title" color={palette.muted}>›</AppText>
+      <AppText variant="title" color={palette.muted}>
+        ›
+      </AppText>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  greeting: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: spacing.sm },
+  greeting: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: spacing.sm,
+  },
   greetingCopy: { gap: 4 },
-  avatar: { width: 42, height: 42, borderRadius: 21, alignItems: "center", justifyContent: "center", backgroundColor: palette.accentDim },
+  avatar: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: palette.accentDim,
+  },
   hero: { padding: spacing.lg, backgroundColor: "#171D19" },
-  heroTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  goalRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.md },
+  heroTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  goalRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: spacing.md,
+  },
   goalCopy: { flex: 1, gap: spacing.xs },
-  goalRing: { width: 76, aspectRatio: 1, borderRadius: 40, borderWidth: 3, borderColor: palette.accent, alignItems: "center", justifyContent: "center" },
-  weekStrip: { flexDirection: "row", justifyContent: "space-between", paddingTop: spacing.sm, borderTopWidth: 1, borderTopColor: palette.border },
+  goalRing: {
+    width: 76,
+    aspectRatio: 1,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: palette.accent,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  weekStrip: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: palette.border,
+  },
   weekDay: { alignItems: "center", gap: spacing.xs },
-  dayMark: { width: 30, aspectRatio: 1, borderRadius: 15, alignItems: "center", justifyContent: "center", backgroundColor: palette.surfaceRaised },
+  dayMark: {
+    width: 30,
+    aspectRatio: 1,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: palette.surfaceRaised,
+  },
   dayComplete: { backgroundColor: palette.accent },
   dayToday: { borderWidth: 1, borderColor: palette.accent },
-  sectionHeader: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", gap: spacing.sm },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: spacing.sm,
+  },
   todayCard: { padding: spacing.lg },
   routineLabel: { flexDirection: "row", justifyContent: "space-between" },
-  cardFooter: { gap: spacing.md, borderTopWidth: 1, borderTopColor: palette.border, paddingTop: spacing.md, marginTop: spacing.xs },
+  cardFooter: {
+    gap: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: palette.border,
+    paddingTop: spacing.md,
+    marginTop: spacing.xs,
+  },
   metrics: { flexDirection: "row", gap: spacing.xs },
   shortcuts: { gap: spacing.sm },
-  quickAction: { minHeight: 68, flexDirection: "row", alignItems: "center", gap: spacing.md, paddingHorizontal: spacing.md, borderRadius: 8, borderWidth: 1, borderColor: palette.border, backgroundColor: palette.surface },
-  quickMarker: { width: 40, height: 40, borderRadius: 8, alignItems: "center", justifyContent: "center", backgroundColor: palette.accentDim },
+  quickAction: {
+    minHeight: 68,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.md,
+    paddingHorizontal: spacing.md,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: palette.border,
+    backgroundColor: palette.surface,
+  },
+  quickMarker: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: palette.accentDim,
+  },
   quickCopy: { flex: 1, gap: 4 },
   lastWorkout: { flexDirection: "row", alignItems: "center" },
-  lastWorkoutMark: { width: 40, height: 40, borderRadius: 8, alignItems: "center", justifyContent: "center", backgroundColor: palette.accentDim },
+  lastWorkoutMark: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: palette.accentDim,
+  },
   lastWorkoutCopy: { flex: 1, gap: 3, paddingHorizontal: spacing.md },
 });

@@ -33,7 +33,8 @@ export function useGymData() {
         setProfile(nextProfile);
       })
       .catch(() => {
-        if (active) setError("No pudimos cargar tus datos. Inténtalo otra vez.");
+        if (active)
+          setError("No pudimos cargar tus datos. Inténtalo otra vez.");
       })
       .finally(() => {
         if (active) setLoading(false);

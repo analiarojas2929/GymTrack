@@ -133,17 +133,59 @@ const routines: Routine[] = [
 function createSampleHistory(): WorkoutHistoryEntry[] {
   const now = Date.now();
   return [
-    { id: "sample-1", routineId: "upper", routineName: "Tren superior", startedAt: now - 24 * 60 * 60 * 1000, durationMinutes: 48, volumeKg: 4200, completedSets: 18, totalSets: 18 },
-    { id: "sample-2", routineId: "lower", routineName: "Fuerza de piernas", startedAt: now - 3 * 24 * 60 * 60 * 1000, durationMinutes: 52, volumeKg: 3180, completedSets: 15, totalSets: 15 },
-    { id: "sample-3", routineId: "full", routineName: "Cuerpo completo", startedAt: now - 5 * 24 * 60 * 60 * 1000, durationMinutes: 45, volumeKg: 2670, completedSets: 21, totalSets: 21 },
+    {
+      id: "sample-1",
+      routineId: "upper",
+      routineName: "Tren superior",
+      startedAt: now - 24 * 60 * 60 * 1000,
+      durationMinutes: 48,
+      volumeKg: 4200,
+      completedSets: 18,
+      totalSets: 18,
+    },
+    {
+      id: "sample-2",
+      routineId: "lower",
+      routineName: "Fuerza de piernas",
+      startedAt: now - 3 * 24 * 60 * 60 * 1000,
+      durationMinutes: 52,
+      volumeKg: 3180,
+      completedSets: 15,
+      totalSets: 15,
+    },
+    {
+      id: "sample-3",
+      routineId: "full",
+      routineName: "Cuerpo completo",
+      startedAt: now - 5 * 24 * 60 * 60 * 1000,
+      durationMinutes: 45,
+      volumeKg: 2670,
+      completedSets: 21,
+      totalSets: 21,
+    },
   ];
 }
 
 function createSampleRecords(): PersonalRecord[] {
   return [
-    { exerciseId: "squat", exerciseName: "Sentadilla con barra", weightKg: 95, achievedAt: Date.now() - 12 * 24 * 60 * 60 * 1000 },
-    { exerciseId: "bench", exerciseName: "Press de banca", weightKg: 62.5, achievedAt: Date.now() - 8 * 24 * 60 * 60 * 1000 },
-    { exerciseId: "deadlift", exerciseName: "Peso muerto", weightKg: 115, achievedAt: Date.now() - 20 * 24 * 60 * 60 * 1000 },
+    {
+      exerciseId: "squat",
+      exerciseName: "Sentadilla con barra",
+      weightKg: 95,
+      achievedAt: Date.now() - 12 * 24 * 60 * 60 * 1000,
+    },
+    {
+      exerciseId: "bench",
+      exerciseName: "Press de banca",
+      weightKg: 62.5,
+      achievedAt: Date.now() - 8 * 24 * 60 * 60 * 1000,
+    },
+    {
+      exerciseId: "deadlift",
+      exerciseName: "Peso muerto",
+      weightKg: 115,
+      achievedAt: Date.now() - 20 * 24 * 60 * 60 * 1000,
+    },
   ];
 }
 
@@ -158,7 +200,8 @@ async function getPersonalRecords(): Promise<PersonalRecord[]> {
   const stored = await AsyncStorage.getItem(PERSONAL_RECORDS_KEY);
   if (!stored) return createSampleRecords();
   const parsed: unknown = JSON.parse(stored);
-  if (!Array.isArray(parsed)) throw new Error("Los récords guardados no tienen un formato válido.");
+  if (!Array.isArray(parsed))
+    throw new Error("Los récords guardados no tienen un formato válido.");
   return parsed as PersonalRecord[];
 }
 
@@ -166,12 +209,16 @@ async function getWorkoutHistory(): Promise<WorkoutHistoryEntry[]> {
   const stored = await AsyncStorage.getItem(HISTORY_KEY);
   if (!stored) return createSampleHistory();
   const parsed: unknown = JSON.parse(stored);
-  if (!Array.isArray(parsed)) throw new Error("El historial guardado no tiene un formato válido.");
+  if (!Array.isArray(parsed))
+    throw new Error("El historial guardado no tiene un formato válido.");
   return parsed as WorkoutHistoryEntry[];
 }
 
 async function saveWorkoutHistory(history: WorkoutHistoryEntry[]) {
-  await AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 100)));
+  await AsyncStorage.setItem(
+    HISTORY_KEY,
+    JSON.stringify(history.slice(0, 100)),
+  );
 }
 
 export const gymService = {
@@ -187,7 +234,11 @@ export const gymService = {
     const weekStart = new Date(now);
     weekStart.setHours(0, 0, 0, 0);
     weekStart.setDate(now.getDate() - ((now.getDay() + 6) % 7));
-    const recent = history.filter((entry) => entry.startedAt >= weekStart.getTime() && entry.startedAt <= now.getTime());
+    const recent = history.filter(
+      (entry) =>
+        entry.startedAt >= weekStart.getTime() &&
+        entry.startedAt <= now.getTime(),
+    );
     const goalDays = new Set(recent.map((entry) => dateKey(entry.startedAt)));
     const dailyVolumesKg = Array.from({ length: 7 }, () => 0);
     recent.forEach((entry) => {
@@ -196,7 +247,10 @@ export const gymService = {
     });
 
     return {
-      durationMinutes: recent.reduce((sum, entry) => sum + entry.durationMinutes, 0),
+      durationMinutes: recent.reduce(
+        (sum, entry) => sum + entry.durationMinutes,
+        0,
+      ),
       volumeKg: recent.reduce((sum, entry) => sum + entry.volumeKg, 0),
       sessionsThisWeek: recent.length,
       weeklyGoal: userProfile.weeklyGoal,
@@ -225,7 +279,10 @@ export const gymService = {
       totalPausedSeconds: 0,
       completedSetIds: [],
       currentWeights: Object.fromEntries(
-        routine.exerciseDetails.map((exercise) => [exercise.id, exercise.currentWeightKg]),
+        routine.exerciseDetails.map((exercise) => [
+          exercise.id,
+          exercise.currentWeightKg,
+        ]),
       ),
     };
     await AsyncStorage.setItem(ACTIVE_WORKOUT_KEY, JSON.stringify(workout));
@@ -234,12 +291,26 @@ export const gymService = {
   async saveActiveWorkout(workout: ActiveWorkout) {
     await AsyncStorage.setItem(ACTIVE_WORKOUT_KEY, JSON.stringify(workout));
   },
-  async finishWorkout(workout: ActiveWorkout, routine: Routine, elapsedSeconds: number) {
-    const totalSets = routine.exerciseDetails.reduce((sum, exercise) => sum + exercise.targetSets, 0);
+  async finishWorkout(
+    workout: ActiveWorkout,
+    routine: Routine,
+    elapsedSeconds: number,
+  ) {
+    const totalSets = routine.exerciseDetails.reduce(
+      (sum, exercise) => sum + exercise.targetSets,
+      0,
+    );
     const completedSets = workout.completedSetIds.length;
     const volumeKg = routine.exerciseDetails.reduce((sum, exercise) => {
-      const completedForExercise = workout.completedSetIds.filter((setId) => setId.startsWith(`${exercise.id}:`)).length;
-      return sum + completedForExercise * exercise.targetReps * (workout.currentWeights[exercise.id] ?? 0);
+      const completedForExercise = workout.completedSetIds.filter((setId) =>
+        setId.startsWith(`${exercise.id}:`),
+      ).length;
+      return (
+        sum +
+        completedForExercise *
+          exercise.targetReps *
+          (workout.currentWeights[exercise.id] ?? 0)
+      );
     }, 0);
     const entry: WorkoutHistoryEntry = {
       id: workout.id,
@@ -254,22 +325,41 @@ export const gymService = {
     const history = await getWorkoutHistory();
     await saveWorkoutHistory([
       entry,
-      ...history.filter((item) => !item.id.startsWith("sample-") && item.id !== entry.id),
+      ...history.filter(
+        (item) => !item.id.startsWith("sample-") && item.id !== entry.id,
+      ),
     ]);
     const records = await getPersonalRecords();
     const nextRecords = [...records];
     routine.exerciseDetails.forEach((exercise) => {
-      const completedForExercise = workout.completedSetIds.filter((setId) => setId.startsWith(`${exercise.id}:`)).length;
+      const completedForExercise = workout.completedSetIds.filter((setId) =>
+        setId.startsWith(`${exercise.id}:`),
+      ).length;
       if (completedForExercise === 0) return;
-      const weightKg = workout.currentWeights[exercise.id] ?? exercise.currentWeightKg;
-      const recordIndex = nextRecords.findIndex((record) => record.exerciseId === exercise.id);
+      const weightKg =
+        workout.currentWeights[exercise.id] ?? exercise.currentWeightKg;
+      const recordIndex = nextRecords.findIndex(
+        (record) => record.exerciseId === exercise.id,
+      );
       if (recordIndex >= 0 && weightKg > nextRecords[recordIndex].weightKg) {
-        nextRecords[recordIndex] = { ...nextRecords[recordIndex], weightKg, achievedAt: Date.now() };
+        nextRecords[recordIndex] = {
+          ...nextRecords[recordIndex],
+          weightKg,
+          achievedAt: Date.now(),
+        };
       } else if (recordIndex < 0 && weightKg > 0) {
-        nextRecords.push({ exerciseId: exercise.id, exerciseName: exercise.name, weightKg, achievedAt: Date.now() });
+        nextRecords.push({
+          exerciseId: exercise.id,
+          exerciseName: exercise.name,
+          weightKg,
+          achievedAt: Date.now(),
+        });
       }
     });
-    await AsyncStorage.setItem(PERSONAL_RECORDS_KEY, JSON.stringify(nextRecords));
+    await AsyncStorage.setItem(
+      PERSONAL_RECORDS_KEY,
+      JSON.stringify(nextRecords),
+    );
     await AsyncStorage.removeItem(ACTIVE_WORKOUT_KEY);
     return entry;
   },

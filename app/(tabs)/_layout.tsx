@@ -56,7 +56,11 @@ export default function TabLayout() {
         options={{
           title: "Entrenar",
           tabBarIcon: ({ color }) => (
-            <SymbolView name={{ ios: "timer", android: "timer", web: "timer" }} tintColor={color} size={22} />
+            <SymbolView
+              name={{ ios: "timer", android: "timer", web: "timer" }}
+              tintColor={color}
+              size={22}
+            />
           ),
         }}
       />

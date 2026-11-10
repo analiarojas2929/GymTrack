@@ -130,7 +130,9 @@ export function Metric({
 }
 
 export function SkeletonBlock({ style }: { style?: object }) {
-  return <View accessibilityLabel="Cargando" style={[styles.skeleton, style]} />;
+  return (
+    <View accessibilityLabel="Cargando" style={[styles.skeleton, style]} />
+  );
 }
 
 export function EmptyState({
@@ -146,7 +148,9 @@ export function EmptyState({
     <View style={styles.emptyState}>
       <AppText variant="title">{title}</AppText>
       <AppText color={palette.muted}>{detail}</AppText>
-      {action ? <ActionButton label={action.label} onPress={action.onPress} /> : null}
+      {action ? (
+        <ActionButton label={action.label} onPress={action.onPress} />
+      ) : null}
     </View>
   );
 }
@@ -208,6 +212,14 @@ const styles = StyleSheet.create({
   secondaryButtonText: { color: palette.text },
   pressed: { opacity: 0.78 },
   disabled: { opacity: 0.5 },
-  skeleton: { minHeight: 20, borderRadius: 6, backgroundColor: palette.surfaceRaised },
-  emptyState: { padding: spacing.lg, gap: spacing.sm, alignItems: "flex-start" },
+  skeleton: {
+    minHeight: 20,
+    borderRadius: 6,
+    backgroundColor: palette.surfaceRaised,
+  },
+  emptyState: {
+    padding: spacing.lg,
+    gap: spacing.sm,
+    alignItems: "flex-start",
+  },
 });
