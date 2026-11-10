@@ -1,3 +1,3 @@
-import { ProgressScreen } from "@/screens/ProgressScreen";
+import { ProgressOverviewScreen } from "@/screens/ProgressOverviewScreen";
 
-export default ProgressScreen;
+export default ProgressOverviewScreen;

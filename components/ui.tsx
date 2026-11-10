@@ -70,19 +70,24 @@ export function ActionButton({
   onPress,
   variant = "primary",
   icon,
+  disabled = false,
 }: {
   label: string;
   onPress: () => void;
   variant?: "primary" | "secondary" | "quiet";
   icon?: ReactNode;
+  disabled?: boolean;
 }) {
   return (
     <Pressable
       onPress={onPress}
+      disabled={disabled}
+      accessibilityState={{ disabled }}
       style={({ pressed }) => [
         styles.button,
         styles[`button_${variant}`],
         pressed && styles.pressed,
+        disabled && styles.disabled,
       ]}
     >
       {icon}
@@ -121,6 +126,28 @@ export function Metric({
         {label}
       </AppText>
     </Surface>
+  );
+}
+
+export function SkeletonBlock({ style }: { style?: object }) {
+  return <View accessibilityLabel="Cargando" style={[styles.skeleton, style]} />;
+}
+
+export function EmptyState({
+  title,
+  detail,
+  action,
+}: {
+  title: string;
+  detail: string;
+  action?: { label: string; onPress: () => void };
+}) {
+  return (
+    <View style={styles.emptyState}>
+      <AppText variant="title">{title}</AppText>
+      <AppText color={palette.muted}>{detail}</AppText>
+      {action ? <ActionButton label={action.label} onPress={action.onPress} /> : null}
+    </View>
   );
 }
 
@@ -180,4 +207,7 @@ const styles = StyleSheet.create({
   primaryButtonText: { color: palette.background },
   secondaryButtonText: { color: palette.text },
   pressed: { opacity: 0.78 },
+  disabled: { opacity: 0.5 },
+  skeleton: { minHeight: 20, borderRadius: 6, backgroundColor: palette.surfaceRaised },
+  emptyState: { padding: spacing.lg, gap: spacing.sm, alignItems: "flex-start" },
 });

@@ -35,18 +35,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="exercises"
         options={{
-          title: "Ejercicios",
-          tabBarIcon: ({ color }) => (
-            <SymbolView
-              name={{
-                ios: "dumbbell.fill",
-                android: "fitness_center",
-                web: "fitness_center",
-              }}
-              tintColor={color}
-              size={22}
-            />
-          ),
+          href: null,
         }}
       />
       <Tabs.Screen
@@ -59,6 +48,15 @@ export default function TabLayout() {
               tintColor={color}
               size={22}
             />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="train"
+        options={{
+          title: "Entrenar",
+          tabBarIcon: ({ color }) => (
+            <SymbolView name={{ ios: "timer", android: "timer", web: "timer" }} tintColor={color} size={22} />
           ),
         }}
       />

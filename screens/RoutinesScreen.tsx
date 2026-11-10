@@ -1,5 +1,6 @@
 import { router } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { useState } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
 
 import {
     ActionButton,
@@ -13,6 +14,7 @@ import { useGymData } from "@/hooks/useGymData";
 
 export function RoutinesScreen() {
   const { routines } = useGymData();
+  const [expandedRoutineId, setExpandedRoutineId] = useState<string | null>(null);
 
   return (
     <AppScreen>
@@ -22,7 +24,7 @@ export function RoutinesScreen() {
         detail="Planes listos para adaptar a tu semana."
       />
       <ActionButton
-        label="＋  Crear rutina personalizada"
+        label="Añadir resumen manual"
         variant="secondary"
         onPress={() => router.push("/workout-log")}
       />
@@ -52,9 +54,46 @@ export function RoutinesScreen() {
               Intermedio
             </AppText>
           </View>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ expanded: expandedRoutineId === routine.id }}
+            onPress={() => setExpandedRoutineId((current) => current === routine.id ? null : routine.id)}
+            style={styles.detailToggle}
+          >
+            <AppText variant="caption" color={palette.accent}>
+              {expandedRoutineId === routine.id ? "OCULTAR EJERCICIOS" : "VER EJERCICIOS Y SERIES"}
+            </AppText>
+            <AppText variant="caption" color={palette.muted}>
+              {expandedRoutineId === routine.id ? "−" : "+"}
+            </AppText>
+          </Pressable>
+          {expandedRoutineId === routine.id ? (
+            <View style={styles.exerciseList}>
+              <View style={styles.exerciseHeader}>
+                <AppText variant="caption" color={palette.muted}>EJERCICIO</AppText>
+                <AppText variant="caption" color={palette.muted}>SERIES × REPS</AppText>
+              </View>
+              {routine.exerciseDetails.map((exercise) => (
+                <View key={exercise.id} style={styles.exerciseRow}>
+                  <View style={styles.exerciseCopy}>
+                    <AppText variant="caption">{exercise.name}</AppText>
+                    <AppText variant="caption" color={palette.muted}>
+                      {exercise.previousWeightKg} → {exercise.currentWeightKg} kg · descanso {exercise.restSeconds}s
+                    </AppText>
+                  </View>
+                  <AppText variant="caption" color={palette.accent}>
+                    {exercise.targetSets} × {exercise.targetReps}
+                  </AppText>
+                </View>
+              ))}
+            </View>
+          ) : null}
           <ActionButton
-            label="Empezar sesión"
-            onPress={() => router.push("/workout-log")}
+            label="Empezar rutina"
+            onPress={() => router.push({
+              pathname: "/(tabs)/train",
+              params: { routineId: routine.id },
+            })}
           />
         </Surface>
       ))}
@@ -73,4 +112,9 @@ const styles = StyleSheet.create({
     paddingTop: spacing.md,
     marginTop: spacing.xs,
   },
+  detailToggle: { flexDirection: "row", justifyContent: "space-between", paddingVertical: spacing.sm },
+  exerciseList: { gap: spacing.xs, paddingVertical: spacing.xs },
+  exerciseHeader: { flexDirection: "row", justifyContent: "space-between", paddingBottom: spacing.xs },
+  exerciseRow: { minHeight: 50, flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.sm, borderTopWidth: 1, borderTopColor: palette.border },
+  exerciseCopy: { flex: 1, gap: 3 },
 });
